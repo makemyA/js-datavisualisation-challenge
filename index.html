@@ -6,27 +6,30 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="Ie=Edge,chrome=1">
   <title>Statistiques sur la criminalité - Statistics Explained</title>
+  <script src="http://d3js.org/d3.v4.min.js"></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
   <meta name="generator" content="MediaWiki 1.22.5">
   <link rel="shortcut icon" href="http://ec.europa.eu/skins/common/logos/favicon.gif">
   <link rel="alternate" type="application/atom+xml" title="Flux Atom de Statistics Explained" href="http://ec.europa.eu/eurostat/statistics-explained/index.php?title=Special:RecentChanges&amp;feed=atom">
 
-  <link rel="stylesheet" href="./assets/EMPM_MainPage.css">
-  <link rel="stylesheet" href="./assets/StatexpBPM.css">
-  <link rel="stylesheet" href="./assets/styles.css">
-  <link rel="stylesheet" href="./assets/styles(1).css">
-  <link rel="stylesheet" href="./assets/ext.cite.css">
-  <link rel="stylesheet" href="./assets/jquery.makeCollapsible.css">
-  <link rel="stylesheet" href="./assets/jquery.tipsy.css">
-  <link rel="stylesheet" href="./assets/jquery.suggestions.css">
-  <link rel="stylesheet" href="./assets/mediawiki.searchSuggest.css">
-  <link rel="stylesheet" href="./assets/mediawiki.action.view.postEdit.css">
+  <link rel="stylesheet" href="assets/EMPM_MainPage.css">
+  <link rel="stylesheet" href="assets/StatexpBPM.css">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/styles(1).css">
+  <link rel="stylesheet" href="assets/ext.cite.css">
+  <link rel="stylesheet" href="assets/jquery.makeCollapsible.css">
+  <link rel="stylesheet" href="assets/jquery.tipsy.css">
+  <link rel="stylesheet" href="assets/jquery.suggestions.css">
+  <link rel="stylesheet" href="assets/mediawiki.searchSuggest.css">
+  <link rel="stylesheet" href="assets/mediawiki.action.view.postEdit.css">
   <meta name="ResourceLoaderDynamicStyles" content="">
-  <link href="./assets/style.css" rel="stylesheet" type="text/css">
+  <link href="assets/style.css" rel="stylesheet" type="text/css">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./assets/font-awesome.min.css">
-  <link rel="stylesheet" href="./assets/statexpflat.css">
-  <link rel="stylesheet" href="./assets/statexpflat-grid.css">
+  <link rel="stylesheet" href="assets/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/statexpflat.css">
+  <link rel="stylesheet" href="assets/statexpflat-grid.css">
+  <link rel="stylesheet" href="style.css">
 
   <style>
     a:lang(ar),
@@ -87,7 +90,8 @@
 
 <body class="mediawiki ltr sitedir-ltr ns-110 ns-subject page-Archive_Crime_statistics_fr skin-statexpflat action-view" cz-shortcut-listen="true">
 
-
+<main></main>
+<button id="btn">Choice</button>
   <div class="container">
 
     <div class="header" id="se-header">
@@ -795,6 +799,7 @@
                 <span class="mw-headline" id="Crimes_et_d.C3.A9lits_enregistr.C3.A9s_par_les_services_de_police">Crimes et délits enregistrés par les services de police</span>
               </h3>
 
+ <!-- Tableau 1 -->
 
               <table cellspacing="0" cellpadding="0" id="table1">
                 <caption> Tableau 1: Infractions enregistrées par la police, 2002–12</caption>
@@ -1500,7 +1505,7 @@
               <h4>
                 <span class="mw-headline" id="Homicides">Homicides</span>
               </h4>
-
+<!-- tableau 2  -->
               <table cellspacing="0" cellpadding="0" id="table2">
                 <caption>Population carcérale, moyenne par an, 2007–09 et 2010–12
                   <br> (pour 100 000 habitants)</caption>
@@ -2161,6 +2166,9 @@
 
     <!--END PAGE-->
   </div>
+  
+ <!--  <script src="script.js"></script> -->
+  <script src="script.js"></script>
 </body>
 
 </html>
