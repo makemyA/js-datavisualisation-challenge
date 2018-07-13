@@ -167,7 +167,7 @@ function requeteByYear() {
 function loadingYEar(){
     var svg = dimple.newSvg("#graph1", "100%", "50vh");
     var data = graphYear;
-    var chart = new dimple.chart(svg, data);
+    var chart = new dimple.chart(svg, data); //chart.data 
     chart.addCategoryAxis("x", "Country");
     chart.addMeasureAxis("y", "Data");
     chart.addSeries(null, dimple.plot.bar);
@@ -175,7 +175,7 @@ function loadingYEar(){
     chart.draw();
     window.onresize = function () {
       
-        myChart.draw(0, true);
+        chart.draw(0, true);  //chart.
     };
 }
 
@@ -194,7 +194,7 @@ function loadingCountry(){
     chart.draw();
     window.onresize = function () {
       
-        myChart.draw(0, true);
+        chart.draw(0, true);
     };
 }
 
@@ -206,3 +206,78 @@ function remove(){
 
     requeteByYear();
    
+
+
+    let dataPoints= [];
+    //AJAX REQUEST
+    window.onload = function() {
+         dataPoints = [];
+        var chart;
+        $.getJSON("https://canvasjs.com/services/data/datapoints.php?xstart=1&ystart=10&length=10&type=json&callback=?", function(data) {  
+            $.each(data, function(key, value){
+                dataPoints.push({x: value[0], y: parseInt(value[1])});
+                console.log(dataPoints);
+            });
+           loadingData();
+           
+            console.log(dataPoints);
+            
+
+
+           
+         /*    chart = new CanvasJS.Chart("chartContainer",{
+                title:{
+                    text:"Live Chart with dataPoints from External JSON"
+                },
+                data: [{
+                    type: "line",
+                    dataPoints : dataPoints,
+                }]
+            });
+            chart.render(); */
+           
+            updateChart();
+          
+        });
+
+
+
+        function updateChart() {
+           
+        $.getJSON("https://canvasjs.com/services/data/datapoints.php?xstart=" + (dataPoints.length + 1) + "&ystart=" + (dataPoints[dataPoints.length - 1].y) + "&length=1&type=json", function(data) {
+            dataPoints= [];//remet le tableau à 0"
+            $.each(data, function(key, value) {
+                dataPoints.push({
+                x: parseInt(value[0]),
+                y: parseInt(value[1])
+                });
+            });
+            chart.draw(0, true);
+            setTimeout(function(){updateChart()}, 1000);
+            remove();
+        });
+        }
+    }
+
+    
+
+    function loadingData(){
+       
+        var svg = dimple.newSvg("#graph1", "100%", "50vh");
+        var data = dataPoints;
+        var chart = new dimple.chart(svg, data);
+        chart.addCategoryAxis("x", "Year");
+        chart.addMeasureAxis("y", "Data");
+      /*   chart.addSeries(null, dimple.plot.bar); */
+      
+      chart.addSeries(null, dimple.plot.line);
+      // Draw without any axes
+     /*  xAxis.hidden = true;
+      yAxis.hidden = true; */
+        chart.draw();
+        window.onresize = function () {
+          
+            chart.draw(0, true);
+        };
+    
+    }
