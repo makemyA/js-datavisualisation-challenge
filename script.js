@@ -1,3 +1,5 @@
+
+
 //Générer le tableau de données à partir du fichier html
 let tabGlobal=[];
 let tabYears=[];
@@ -67,7 +69,9 @@ table1.querySelector("caption").insertAdjacentHTML("afterbegin",'<button id="but
 let buttonTab1 = document.getElementById("button-tab1");
 buttonTab1.insertAdjacentHTML("afterend",'<div id="graph1"></div>');
 let graph1 = document.getElementById("graph1");
-
+graph1.insertAdjacentHTML("afterend",'<div id="graph2"></div>')
+let graph2 = document.getElementById("graph2");
+graph2.insertAdjacentHTML("beforebegin",'<h3>Données en temps réel</h3>')
 graph1.insertAdjacentHTML("beforeBegin",'<select id="selectYear"></select>');
 let selectYear = document.getElementById("selectYear");
 for (let i =0; i<tabYears.length;i++){
@@ -95,7 +99,9 @@ selectCountry2.addEventListener("change",selectElementCountry);
 function remove(){
     graph1.innerHTML="";
     }
-
+function removeGraph2(){
+    graph2.innerHTML="";
+    }
 function toggleHide(){
  graph1.classList.toggle("hide");
  selectYear.classList.toggle("hide");
@@ -200,84 +206,80 @@ function loadingCountry(){
 
 
 //effacer tableaux
-function remove(){
-     graph1.innerHTML="";
-    }
+
 
     requeteByYear();
    
 
 
     let dataPoints= [];
-    //AJAX REQUEST
-    window.onload = function() {
-         dataPoints = [];
-        var chart;
-        $.getJSON("https://canvasjs.com/services/data/datapoints.php?xstart=1&ystart=10&length=10&type=json&callback=?", function(data) {  
-            $.each(data, function(key, value){
-                dataPoints.push({x: value[0], y: parseInt(value[1])});
-                console.log(dataPoints);
-            });
-           loadingData();
-           
-            console.log(dataPoints);
-            
-
-
-           
-         /*    chart = new CanvasJS.Chart("chartContainer",{
-                title:{
-                    text:"Live Chart with dataPoints from External JSON"
-                },
-                data: [{
-                    type: "line",
-                    dataPoints : dataPoints,
-                }]
-            });
-            chart.render(); */
-           
-            updateChart();
-          
-        });
-
-
-
-        function updateChart() {
-           
-        $.getJSON("https://canvasjs.com/services/data/datapoints.php?xstart=" + (dataPoints.length + 1) + "&ystart=" + (dataPoints[dataPoints.length - 1].y) + "&length=1&type=json", function(data) {
-            dataPoints= [];//remet le tableau à 0"
-            $.each(data, function(key, value) {
-                dataPoints.push({
-                x: parseInt(value[0]),
-                y: parseInt(value[1])
-                });
-            });
-            chart.draw(0, true);
-            setTimeout(function(){updateChart()}, 1000);
-            remove();
-        });
-        }
-    }
-
-    
 
     function loadingData(){
-       
-        var svg = dimple.newSvg("#graph1", "100%", "50vh");
+       removeGraph2();
+       /* dataPoints=[]; */
+        var svg = dimple.newSvg("#graph2", "100%", "50vh");
         var data = dataPoints;
         var chart = new dimple.chart(svg, data);
-        chart.addCategoryAxis("x", "Year");
-        chart.addMeasureAxis("y", "Data");
+        /* chart.setBounds(35, 60, "90%", 450); */
+        let x= chart.addCategoryAxis("x", "data");
+        let y =chart.addMeasureAxis("y", "value");
       /*   chart.addSeries(null, dimple.plot.bar); */
-      
-      chart.addSeries(null, dimple.plot.line);
+      x.addOrderRule("x", false);
+    /*   y.ticks = 15; */
+       chart.addSeries(null, dimple.plot.bubble);
+    chart.addSeries(null, dimple.plot.scatter);
+       /* chart.addSeries(null, dimple.plot.line); */ 
       // Draw without any axes
      /*  xAxis.hidden = true;
       yAxis.hidden = true; */
         chart.draw();
-        window.onresize = function () {
-          
-            chart.draw(0, true);
-        };
+        
     
     }
+
+var request = new XMLHttpRequest();
+
+request.open('GET', 'https://inside.becode.org/api/v1/data/random.json', true);
+
+request.onload = function() {
+
+if (request.status >= 200 && request.status < 400) {
+    let data = JSON.parse(request.responseText);
+
+    for (i = 0; i < data.length; i++) {
+
+        dataPoints.push({data: data[i][0], value: data[i][1]});
+    }
+    loadingData();
+    updateChart();
+    
+}
+};
+
+request.send();
+
+function updateChart() {
+    dataPoints=[];
+request.open('GET', 'https://inside.becode.org/api/v1/data/random.json', true);
+
+request.onload = function() {
+
+    if (request.status >= 200 && request.status < 400) {
+        let data = JSON.parse(request.responseText);
+
+        for (i = 0; i < data.length; i++) {
+            dataPoints.push({data: data[i][0], value: data[i][1]});
+        }
+        console.log(dataPoints);
+        
+ loadingData();
+
+
+        setTimeout(function() { updateChart() }, 1500);
+
+
+    }
+}
+request.send()
+}
+
